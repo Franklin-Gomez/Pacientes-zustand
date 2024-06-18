@@ -40,8 +40,6 @@ export default function PatientForm() {
                     { errors.name && 
                         <Error> { errors.name?.message?.toString()} </Error>
                     }
-                    
-                    
 
                 </div>
     
@@ -54,19 +52,44 @@ export default function PatientForm() {
                         className="w-full p-3  border border-gray-100"  
                         type="text" 
                         placeholder="Nombre del Propietario" 
+                        {...register('caretaker', { 
+                            required: 'El Propietario es obligatorio'
+                        })}
+
                     />
+
+                    { errors.name && 
+                        <Error> { errors.caretaker?.message?.toString()} </Error>
+                    }
+
                 </div>
     
                 <div className="mb-5">
                     <label htmlFor="email" className="text-sm uppercase font-bold">
-                      Email 
+                        Email 
                     </label>
                     <input  
-                      id="email"
-                      className="w-full p-3  border border-gray-100"  
-                      type="email" 
-                      placeholder="Email de Registro" 
+                        id="email"
+                        className="w-full p-3  border border-gray-100"  
+                        type="email" 
+                        placeholder="Email de Registro" 
+                        {...register('email', { 
+                            required: 'El Email es obligatorio',
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'Email No Válido'
+                            }
+                        })}
                     />
+
+                    { errors.email && 
+                        <Error> { errors.email?.message?.toString()} </Error>
+                    }
+
+                    { errors.pattern && 
+                        <Error> { errors.pattern?.message?.toString()} </Error>
+                    }
+
                 </div>
     
                 <div className="mb-5">
@@ -77,7 +100,15 @@ export default function PatientForm() {
                         id="date"
                         className="w-full p-3  border border-gray-100"  
                         type="date" 
+                        {...register('date', { 
+                            required: 'La fecha de alta es obligatoria obligatorio'
+                        })}
                     />
+
+                    { errors.date && 
+                        <Error> { errors.date?.message?.toString()} </Error>
+                    }
+
                 </div>
                 
                 <div className="mb-5">
@@ -88,7 +119,15 @@ export default function PatientForm() {
                         id="symptoms"
                         className="w-full p-3  border border-gray-100"  
                         placeholder="Síntomas del paciente" 
-                    ></textarea>
+                        {...register('symptoms', { 
+                            required: 'La descripcion de los sintomas es obligatorio'
+                        })}
+                    />
+
+                    { errors.symptoms && 
+                        <Error> { errors.symptoms?.message?.toString()} </Error>
+                    }
+                    
                 </div>
     
                 <input
