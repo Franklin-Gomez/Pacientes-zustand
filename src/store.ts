@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 
 type PatientState = { 
     patients : Patient[]
+    activeId : Patient['id']
     addPatient : ( data : DraftPatient ) => void
     deletePatient: (id: any) => void
+    getPatientById: (id: any) => void
 }
 
 // agregandole el id
@@ -19,6 +21,7 @@ export const usePatientStore = create<PatientState> (( set) => ({
 
     // states
     patients : [],
+    activeId : '',
 
     // funciones 
     addPatient : ( data ) => { 
@@ -31,6 +34,12 @@ export const usePatientStore = create<PatientState> (( set) => ({
     deletePatient: ( id ) => { 
         set ( ( state) => ({
             patients : state.patients.filter((patient) => patient.id !== id )
+        }))
+    },
+
+    getPatientById : ( id ) => { 
+        set ( () => ({
+            activeId : id
         }))
     }
 
