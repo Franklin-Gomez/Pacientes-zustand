@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 import { DraftPatient, Patient } from "./types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,31 +17,35 @@ const createPatient = ( patient : DraftPatient) : Patient => {
 }
 
 // Creando Store
-export const usePatientStore = create<PatientState> (( set) => ({
-    // states y funciones que la modifican
+export const usePatientStore = create<PatientState>()(
+    
+    // devtools para los estados de los states
 
-    // states
-    patients : [],
-    activeId : '',
+    devtools(( set ) => ({
+        // states y funciones que la modifican
 
-    // funciones 
-    addPatient : ( data ) => { 
-        const newPatient = createPatient( data )
-        set ( (state) => ({
-            patients : [...state.patients ,  newPatient ]
-        }))
-    },
+        // states
+        patients : [],
+        activeId : '',
 
-    deletePatient: ( id ) => { 
-        set ( ( state) => ({
-            patients : state.patients.filter((patient) => patient.id !== id )
-        }))
-    },
+        // funciones 
+        addPatient : ( data ) => { 
+            const newPatient = createPatient( data )
+            set ( (state) => ({
+                patients : [...state.patients ,  newPatient ]
+            }))
+        },
 
-    getPatientById : ( id ) => { 
-        set ( () => ({
-            activeId : id
-        }))
-    }
+        deletePatient: ( id ) => { 
+            set ( ( state) => ({
+                patients : state.patients.filter((patient) => patient.id !== id )
+            }))
+        },
 
-}))
+        getPatientById : ( id ) => { 
+            set ( () => ({
+                activeId : id
+            }))
+        }
+    })
+))
