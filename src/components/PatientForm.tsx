@@ -4,9 +4,11 @@ import { DraftPatient } from '../types'
 import { usePatientStore } from '../store'
 import { useEffect } from 'react'
 
+
 export default function PatientForm() {
 
     const addPatient = usePatientStore( state => state.addPatient)
+    const updatePatient = usePatientStore( state => state.updatePatient)
     const activeId = usePatientStore( state => state.activeId)
     const patient = usePatientStore( state => state.patients)
 
@@ -29,7 +31,12 @@ export default function PatientForm() {
 
     const registerPatient = ( data : DraftPatient) => { 
         // data se pasa en automatico con la informacion del formulario
-        addPatient( data )
+
+        if ( activeId ) { 
+            updatePatient( data )
+        } else { 
+            addPatient( data )
+        }
 
         reset()
     }

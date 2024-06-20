@@ -9,6 +9,7 @@ type PatientState = {
     addPatient : ( data : DraftPatient ) => void
     deletePatient: (id: any) => void
     getPatientById: (id: any) => void
+    updatePatient : ( data : DraftPatient) => void
 }
 
 // agregandole el id
@@ -45,6 +46,17 @@ export const usePatientStore = create<PatientState>()(
         getPatientById : ( id ) => { 
             set ( () => ({
                 activeId : id
+            }))
+        },
+
+        updatePatient : ( data ) => { 
+            set (( state ) => ({
+
+                // actualizamos el paciente
+                patients : state.patients.map((pat) => pat.id == state.activeId ? { id : state.activeId , ...data } : pat),
+
+                // reiniciamos el activeId
+                activeId : ''
             }))
         }
     })
