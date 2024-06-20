@@ -34,9 +34,11 @@ export default function PatientForm() {
         // data se pasa en automatico con la informacion del formulario
 
         if ( activeId ) { 
+            // editar
             updatePatient( data )
             toast.success('Paciente Actualizado Correctamente')
         } else { 
+            // agregar
             addPatient( data )
             toast.success('Paciente Registrado Correctamente')
         }
