@@ -3,18 +3,19 @@ import InputsError from "./InputsError";
 import { DraftPatient } from "../types";
 import { usePatientStore } from "../store";
 
+
 export default function PatientForm() {
     
     const { register , handleSubmit , formState : { errors  } , reset } = useForm<DraftPatient>();
 
     // extraemos los funciones del zustand
-    const { addPatient } = usePatientStore()
+    //const { addPatient } = usePatientStore()
+    const addPatient = usePatientStore( state => state.addPatient)
 
     const registerPatient = ( data  : DraftPatient ) => { 
-        console.log( data )
         
         addPatient( data )
-        
+
         // reiniciando el formulario 
         reset();
     }
