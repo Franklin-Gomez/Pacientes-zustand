@@ -15,7 +15,7 @@ export default function PatientList() {
                         <div className=" bg-white shadow-md rounded-lg py-10 px-5 my-20 mx-2">
                             <PatienDetails
                                 key={patient.id}
-                                patient={patiens}
+                                patients={patient}
                             />
                         </div>
                     )}
