@@ -3,6 +3,7 @@ import InputsError from "./InputsError";
 import { DraftPatient } from "../types";
 import { usePatientStore } from "../store";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 
 export default function PatientForm() {
@@ -20,8 +21,10 @@ export default function PatientForm() {
 
         if( validId ) { 
             updataPatient( data )
+            toast.success('Registro Editado Correctamente')
         } else { 
             addPatient( data )
+            toast.success('Registro Creado Correctamente')
         }
         
         // reiniciando el formulario 
