@@ -6,8 +6,11 @@ import { devtools } from "zustand/middleware";
 // firmas - types 
 type PatientState = { 
     patients :  Patient[]
+    validId : Patient['id']
     addPatient: (data: DraftPatient) => void
     deletePatient: (id: Patient['id']) => void
+    getId: (id: Patient['id']) => void
+
 }
 
 const addID = ( data : DraftPatient ) => { 
@@ -22,6 +25,7 @@ export const usePatientStore = create<PatientState>() (
     
             // states
             patients : [],
+            validId : '',
             
 
             // funciones 
@@ -38,11 +42,17 @@ export const usePatientStore = create<PatientState>() (
 
             deletePatient : ( id ) => { 
                 set (( state ) => ({
-                    
+
                     patients : state.patients.filter( (patient) => patient.id != id)
 
                 }))
             },
+
+            getId : ( id ) => { 
+                set(() => ({
+                    validId : id
+                }))
+            }
     
     
         })
