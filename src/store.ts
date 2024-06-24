@@ -7,9 +7,11 @@ import { devtools } from "zustand/middleware";
 type PatientState = { 
     patients :  Patient[]
     validId : Patient['id']
+
     addPatient: (data: DraftPatient) => void
     deletePatient: (id: Patient['id']) => void
     getId: (id: Patient['id']) => void
+    updataPatient: ( data : DraftPatient ) => void
 
 }
 
@@ -43,8 +45,8 @@ export const usePatientStore = create<PatientState>() (
             deletePatient : ( id ) => { 
                 set (( state ) => ({
 
-                    patients : state.patients.filter( (patient) => patient.id != id)
-
+                    patients : state.patients.filter( (patient) => patient.id != id),
+                    validId : ''
                 }))
             },
 
@@ -52,7 +54,16 @@ export const usePatientStore = create<PatientState>() (
                 set(() => ({
                     validId : id
                 }))
-            }
+            },
+
+            updataPatient : ( data ) =>{
+                
+                set ((state) => ({
+                    patients : state.patients.map( (patient) => patient.id == state.validId ? { id : patient.id , ...data } : patient),
+
+                    validId : ''
+                }))
+            } 
     
     
         })

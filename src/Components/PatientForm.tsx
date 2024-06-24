@@ -2,23 +2,49 @@ import { useForm } from "react-hook-form"
 import InputsError from "./InputsError";
 import { DraftPatient } from "../types";
 import { usePatientStore } from "../store";
+import { useEffect } from "react";
 
 
 export default function PatientForm() {
     
-    const { register , handleSubmit , formState : { errors  } , reset } = useForm<DraftPatient>();
+    const { register , handleSubmit , setValue , formState : { errors  } , reset } = useForm<DraftPatient>();
 
     // extraemos los funciones del zustand
     //const { addPatient } = usePatientStore()
     const addPatient = usePatientStore( state => state.addPatient)
+    const updataPatient = usePatientStore( state => state.updataPatient)
+    const validId = usePatientStore( state => state.validId)
+    const patients = usePatientStore( state => state.patients)
 
     const registerPatient = ( data  : DraftPatient ) => { 
-        
-        addPatient( data )
 
+        if( validId ) { 
+            updataPatient( data )
+        } else { 
+            addPatient( data )
+        }
+        
         // reiniciando el formulario 
         reset();
     }
+
+    useEffect(() => { 
+
+        if( validId  ) { 
+
+            const activePatient = patients.filter(( pat ) => pat.id == validId )[0]
+            setValue('name',activePatient.name)
+            setValue('caretaker',activePatient.caretaker)
+            setValue('email',activePatient.email)
+            setValue('date',activePatient.date)
+            setValue('symptoms',activePatient.symptoms)
+
+            return;
+        } 
+
+        reset()
+
+    }, [ validId ])
 
 
     return (
