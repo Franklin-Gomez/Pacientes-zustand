@@ -1,7 +1,7 @@
 import { create} from "zustand";
 import { DraftPatient, Patient } from "./types";
 import { v4 as uuidv4 } from 'uuid';
-import { devtools } from "zustand/middleware";
+import { devtools , persist , createJSONStorage } from "zustand/middleware";
 
 // firmas - types 
 type PatientState = { 
@@ -22,50 +22,51 @@ const addID = ( data : DraftPatient ) => {
 export const usePatientStore = create<PatientState>() (
     
     devtools(
-
-        ( set ) => ({
-    
-            // states
-            patients : [],
-            validId : '',
-            
-
-            // funciones 
-            addPatient : ( data ) =>  {
-
-                const newPatient = addID ( data )
+            persist ( ( set ) => ({
+                // states
+                patients : [],
+                validId : '',
                 
-                set((state) => ({ 
 
-                    patients : [ ...state.patients , newPatient ]
+                // funciones 
+                addPatient : ( data ) =>  {
+
+                    const newPatient = addID ( data )
                     
-                }))
-            },
+                    set((state) => ({ 
 
-            deletePatient : ( id ) => { 
-                set (( state ) => ({
+                        patients : [ ...state.patients , newPatient ]
+                        
+                    }))
+                },
 
-                    patients : state.patients.filter( (patient) => patient.id != id),
-                    validId : ''
-                }))
-            },
+                deletePatient : ( id ) => { 
+                    set (( state ) => ({
 
-            getId : ( id ) => { 
-                set(() => ({
-                    validId : id
-                }))
-            },
+                        patients : state.patients.filter( (patient) => patient.id != id),
+                        validId : ''
+                    }))
+                },
 
-            updataPatient : ( data ) =>{
-                
-                set ((state) => ({
-                    patients : state.patients.map( (patient) => patient.id == state.validId ? { id : patient.id , ...data } : patient),
+                getId : ( id ) => { 
+                    set(() => ({
+                        validId : id
+                    }))
+                },
 
-                    validId : ''
-                }))
-            } 
-    
-    
-        })
+                updataPatient : ( data ) =>{
+                    
+                    set ((state) => ({
+                        patients : state.patients.map( (patient) => patient.id == state.validId ? { id : patient.id , ...data } : patient),
+
+                        validId : ''
+                    }))
+                }                                                                                                                                                                                                                                                                                                                                                                                                            
+            }) , { 
+                // Configuracion localStorage
+                name : 'Patient-Storage' ,
+                storage : createJSONStorage(() => sessionStorage)
+            }
+        ) // Cierre persist
     ) // cierre devtools
 )
