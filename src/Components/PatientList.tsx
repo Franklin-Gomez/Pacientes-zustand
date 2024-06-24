@@ -5,8 +5,6 @@ export default function PatientList() {
 
     const patiens = usePatientStore( state => state.patients )
 
-    console.log( patiens )
-
     return (
         <div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-scroll">
             <h2 className="font-black text-3xl text-center">Lista Pacientes</h2>
